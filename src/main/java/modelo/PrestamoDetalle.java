@@ -1,6 +1,22 @@
 package modelo;
 import java.time.LocalDate;
 
+/**
+ * Clase PrestamoDetalle
+ * Representa una vista más completa de un préstamo,
+ * combinando la información del libro y de la persona
+ * que realizó el préstamo.
+ * A diferencia de la clase Prestamo, esta clase no
+ * solo guarda los IDs, sino también datos descriptivos como:
+ * - El título del libro.
+ * - El nombre y apellido de la persona.
+ * Esto resulta útil cuando se quiere mostrar información
+ * directamente al usuario (por ejemplo, en listados, reportes
+ * o consultas), evitando tener que hacer múltiples accesos
+ * para obtener los datos relacionados.
+ * Se usan fechas con LocalDate porque solo se requiere
+ * el día exacto (sin horas). */
+
 public class PrestamoDetalle {
 
         private int libroId;

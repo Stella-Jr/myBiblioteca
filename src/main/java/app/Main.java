@@ -8,10 +8,17 @@ import modelo.Persona;
 import modelo.Prestamo;
 import modelo.PrestamoDetalle;
 import util.ISBNUtil;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
+
+/**
+ * Clase Main
+ * Es el punto de entrada del programa.
+ * - Muestra un menú interactivo al usuario.
+ * - Permite elegir acciones: agregar libros, listar libros, registrar préstamos, etc.
+ * - Coordina entre el usuario, los DAO y las utilidades.
+ * En esta clase NO se maneja SQL directamente, sino que se delega a los DAO */
 
 public class Main {
     public static void main(String[] args) {
@@ -113,11 +120,19 @@ public class Main {
         System.out.print("Ingrese ISBN (6 dígitos): ");
         String isbn = scanner.nextLine();
 
+        //primero se valida el formato para verificar que tenga 6 digitos
         if (!ISBNUtil.esIsbnValido(isbn)) {
             System.out.println("ISBN inválido. Debe tener exactamente 6 dígitos numéricos.");
             return;
         }
 
+        //luego se valida si es que ya existe ese isbn y no se carga si es que ya hay un libro con ese isbn
+        if (libroDAO.existeIsbn(isbn)) {
+            System.out.println("El ISBN ya existe, no se puede registrar.");
+            return;
+        }
+
+        //ultimo se crea y se guarda
         Libro libro = new Libro(0, titulo, autor, anio, isbn);
         libroDAO.agregarLibro(libro);
     }
@@ -284,6 +299,7 @@ public class Main {
         int personaId = Integer.parseInt(scanner.nextLine());
 
         List<Prestamo> resultados = prestamoDAO.buscarPrestamoPorPersona(personaId);
+
         if (resultados.isEmpty()) {
             System.out.println("No se encontraron prestamos con ese ID de persona.");
         } else {

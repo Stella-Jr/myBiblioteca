@@ -2,6 +2,20 @@ package modelo;
 
 import java.time.LocalDate;
 
+/**
+ * Clase Prestamo
+ * Representa el registro de un préstamo de un libro dentro del sistema.
+ * Cada préstamo contiene la información necesaria para saber:
+ * - Qué libro fue prestado (libroId).
+ * - A qué persona se le prestó (personaId).
+ * - Cuándo comenzó el préstamo (fechaInicio).
+ * - Cuál es la fecha límite de devolución (fechaFin).
+ * - En qué fecha se devolvió realmente (fechaDevolucion).
+ * Se utiliza LocalDate en las fechas para manejar únicamente la fecha sin hora,
+ * lo que simplifica el control de vencimientos.
+ * Esta clase actúa como modelo de datos, aislando la información que luego
+ * se gestionará desde el DAO y el resto del sistema.*/
+
 public class Prestamo {
     private int prestamoId;
     private int libroId;

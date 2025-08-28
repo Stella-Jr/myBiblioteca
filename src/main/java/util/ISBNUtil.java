@@ -1,4 +1,8 @@
 package util;
+/**
+ * Clase ISBNUtil
+ * Clase de utilidades para trabajar con ISBN.
+ * - Verifica que un ISBN tenga el formato correcto (6 dígitos numéricos*/
 
 public class ISBNUtil {
     // Método que valida si un ISBN es válido según criterio (6 dígitos numéricos)

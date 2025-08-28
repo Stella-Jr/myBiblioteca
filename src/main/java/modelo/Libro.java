@@ -1,6 +1,18 @@
 package modelo;
 
+/**
+ * Clase libro
+ * se representa el modelo de un libro en el sistema
+ * Contiene los atributos básicos:
+ * - id (clave primaria en la DB)
+ * - título
+ * - autor
+ * - año de publicación
+ * - isbn
+* Funciona como una "caja de datos" para mover información entre el programa y la base de datos.*/
+
 public class Libro {
+
     //creando los objetos con PRIVATE para que solo se acceda mediante metodos
     private int libroId;
     private String titulo;
@@ -10,7 +22,7 @@ public class Libro {
 
     // Constructor con todos los atributos
     //Permite crear un objeto Libro dándole todos sus datos al momento de instanciarlo
-    //Usás this. para diferenciar el atributo de la clase del parámetro
+    //se usa this. para diferenciar el atributo de la clase del parámetro
     public Libro(int libroId, String titulo, String autor, int anioPublicacion, String isbn) {
         this.libroId = libroId;
         this.titulo = titulo;

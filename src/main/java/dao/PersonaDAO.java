@@ -6,6 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 import modelo.Persona;
 
+/**
+ * Clase PersonaDAO (Data Access Object)
+ * Se encarga de todas las operaciones relacionadas con la tabla `personas`.
+ * - Verifica si un DNI ya existe antes de insertar una nueva persona.
+ * - Agrega una persona nueva si el DNI es único.
+ * - Consulta todas las personas registradas en la base de datos.
+ * - Actualiza los datos de una persona existente usando su DNI.
+ * - Elimina una persona de la tabla a partir de su DNI.
+ * - Maneja los posibles errores de SQL mostrando mensajes claros.
+ * Esta clase centraliza toda la lógica de acceso a datos,
+ * permitiendo que el resto del programa trabaje solo con objetos Persona
+ * sin preocuparse por las consultas SQL.*/
+
+
 public class PersonaDAO {
 
     public void agregarPersona(Persona persona) {

@@ -6,7 +6,39 @@ import java.util.ArrayList;
 import java.util.List;
 import modelo.Libro;
 
+/**
+ * Clase LibroDAO (Data Access Object)
+ * Se encarga de todas las operaciones relacionadas con la tabla `libros`
+ * - Agregar un libro nuevo.
+ * - Consultar todos los libros.
+ * - Buscar un libro por titulo, autor, isbn
+ * - Eliminar libros.
+ * - Validar si un ISBN ya existe.
+ * Esta clase aísla toda la lógica SQL, para que el resto del código
+ * no tenga que preocuparse por cómo se hacen las consultas. */
+
 public class LibroDAO {
+
+    //metodo para validar si hay un isbn duplicado
+    public boolean existeIsbn(String isbn) {
+        //consulta para contar si es que ya hay un isbn , sirve como verificacion
+        String sql = "SELECT COUNT(*) FROM libros WHERE isbn = ?";
+
+        //abre la conexión con la base de datos (conn) y prepara la consulta SQL (stmt)
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, isbn);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // devuelve true si encontró al menos un libro con ese ISBN
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); //esta linea hace que se imprima el error de donde paso
+        }
+        return false;
+    }
 
     // metodo para agregar libros a la base de datos
     public void agregarLibro(Libro libro) {
@@ -32,15 +64,19 @@ public class LibroDAO {
             System.out.println("Error al agregar libro: " + e.getMessage());
         }
     }
+
     // metodo para obetener los libros de la base de datos
     public List<Libro> obtenerLibros() {
+        //crea una lista vacia en donde se iteraran todos los libros
         List<Libro> lista = new ArrayList<>();
         String sql = "SELECT * FROM libros";
 
+        //abre la conexión con la base de datos (conn) y prepara la consulta SQL (stmt)
         try (Connection conn = ConexionDB.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
+            //recorre cada fila de resultados que devolvió la consulta
             while (rs.next()) {
                 Libro libro = new Libro(
                         rs.getInt("libroId"),
@@ -49,9 +85,11 @@ public class LibroDAO {
                         rs.getInt("anio_publicacion"),
                         rs.getString("isbn")
                 );
+                //cada uno de esos objetos se agrega a la lista
                 lista.add(libro);
             }
 
+            //si algo falla (error en conexión, consulta, etc.), atrapa el error y muestra el mensaje
         } catch (SQLException e) {
             System.out.println("Error al obtener libros: " + e.getMessage());
         }
@@ -71,6 +109,7 @@ public class LibroDAO {
             stmt.setString(4, libro.getIsbn());
             stmt.setInt(5, libro.getLibroId());
 
+            //ejecuta la consulta SQL y guarda cuántas filas fueron modificadas en la variable filasAfectadas
             int filasAfectadas = stmt.executeUpdate();
             if (filasAfectadas > 0) {
                 System.out.println("Libro actualizado correctamente.");
@@ -113,7 +152,7 @@ public class LibroDAO {
     //método que devuelve una lista de libros desde la base de datos usando LIKE
     public List<Libro> buscarLibroPorTitulo(String titulo) {
 
-        //Crea una lista vacía donde vamos a guardar los libros que encontremos.
+        //se crea una lista vacía donde vamos a guardar los libros que encontremos
         List<Libro> lista = new ArrayList<>();
         String sql = "SELECT * FROM libros WHERE titulo LIKE ?";
 
@@ -141,6 +180,7 @@ public class LibroDAO {
         return lista;
     }
 
+    //misma implementacion de la de buscarLibroPorTitulo
     public List<Libro> buscarLibroPorAutor(String autor) {
         List<Libro> lista = new ArrayList<>();
         String sql = "SELECT * FROM libros WHERE autor LIKE ?";
@@ -168,6 +208,7 @@ public class LibroDAO {
         return lista;
     }
 
+    //misma implementacion de la de buscarLibroPorTitulo y Autor
     public Libro buscarLibroPorIsbn(String isbn) {
         String sql = "SELECT * FROM libros WHERE isbn = ?";
 

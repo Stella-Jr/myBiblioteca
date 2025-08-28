@@ -1,6 +1,13 @@
 package modelo;
 
-import java.util.Objects;
+/**
+ * Clase Persona
+ * Se encarga de representar a una persona dentro del sistema.
+ * - Contiene los datos principales: ID, nombre, apellido, DNI y email.
+ * - Permite crear objetos Persona con todos sus datos desde el constructor.
+ * - Ofrece getters y setters para consultar y modificar los atributos.
+ * - Incluye un método toString para mostrar los datos de forma legible.
+ * - Implementa equals y hashCode para poder comparar personas y usarlas en colecciones.*/
 
 public class Persona {
     //creando los objetos con PRIVATE para que solo se acceda mediante metodos
